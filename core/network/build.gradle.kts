@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "pk.mahdi.network"
+    namespace = "ir.romina.porkar.network"
 }
 
 dependencies {
