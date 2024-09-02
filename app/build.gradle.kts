@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.mahdipk.android.hilt)
     alias(libs.plugins.mahdipk.android.room)
+    alias(libs.plugins.maps.secret.plugin)
 }
 
 android {
@@ -71,10 +72,13 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation(libs.androidx.work)
-    implementation(libs.hilt.ext.work)
     implementation(libs.androidx.navigation.compose)
     coreLibraryDesugaring(libs.android.desugarJdkLibs)
+
+
+    implementation("com.google.maps.android:maps-compose:4.3.3")
+    implementation("com.google.maps.android:maps-compose-utils:4.3.3")
+    implementation("com.google.maps.android:maps-compose-widgets:4.3.3")
 
     implementation(project(":core:network"))
     implementation(project(":core:designssystem"))
