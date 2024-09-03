@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.MapsComposeExperimentalApi
 import com.google.maps.android.compose.clustering.Clustering
+import ir.romina.porkar.map.components.SearchBar
 import ir.romina.porkar.map.components.StationCard
 import ir.romina.porkar.map.toStationItem
 import ir.romina.porkar.model.stations.Station
@@ -42,6 +43,7 @@ fun StationsMapScreenRoute(
         onStationSelected = viewModel::onStationSelected,
         onMapMarkerClicked = viewModel::onMapMarkerClicked,
         onStationClick = onStationClick,
+        onSearchQueryChanged = viewModel::onSearchQueryChanged,
         modifier = modifier
     )
 }
@@ -52,6 +54,7 @@ fun StationsMapScreen(
     onStationSelected: (Station, (LatLng) -> Unit) -> Unit,
     onMapMarkerClicked: (String, (Int) -> Unit) -> Unit,
     onStationClick: (String) -> Unit,
+    onSearchQueryChanged: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val initialLocation = LatLng(38.06735146540299, 46.32490158181274)
@@ -69,6 +72,7 @@ fun StationsMapScreen(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.BottomCenter
     ) {
+        // Map behind the search bar
         MapWithStations(
             stationItems = stationItems,
             uiState = uiState,
@@ -78,6 +82,16 @@ fun StationsMapScreen(
             lazyListState = lazyListState
         )
 
+        // Transparent Search Bar overlapping the map
+        SearchBar(
+            query = uiState.searchQuery,
+            onQueryChanged = onSearchQueryChanged,
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.TopCenter)  // Align at the top center
+        )
+
+        // Station List at the bottom
         StationList(
             stations = uiState.stations,
             selectedStation = uiState.selectedStation,
@@ -85,10 +99,11 @@ fun StationsMapScreen(
             onStationClick = onStationClick,
             lazyListState = lazyListState,
             cameraPositionState = cameraPositionState,
-            coroutineScope = coroutineScope
+            coroutineScope = coroutineScope,
         )
     }
 }
+
 
 @Composable
 fun StationList(

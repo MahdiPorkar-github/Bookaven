@@ -9,7 +9,9 @@ import ir.romina.porkar.data.worker.SyncManager
 import ir.romina.porkar.model.stations.Station
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.retryWhen
 import kotlinx.coroutines.flow.update
@@ -30,20 +32,32 @@ class StationsViewModel @Inject constructor(
                 it.copy(isLoading = isLoading)
             }
         }.launchIn(viewModelScope)
+
         fetchStations()
     }
 
     private fun fetchStations() {
         repository.getStations()
-            .retryWhen {cause,_ -> cause is IllegalStateException}
+            .retryWhen { cause, _ -> cause is IllegalStateException }
+            .combine(_uiState.map { it.searchQuery }) { stations, query ->
+                if (query.isBlank()) {
+                    stations
+                } else {
+                    stations.filter { it.name.contains(query, ignoreCase = true) }
+                }
+            }
             .onEach { stations: List<Station> ->
-            if (stations.isEmpty()) return@onEach
-            _uiState.value = _uiState.value.copy(stations = stations)
-        }.launchIn(viewModelScope)
+                if (stations.isEmpty()) return@onEach
+                _uiState.update { it.copy(stations = stations) }
+            }.launchIn(viewModelScope)
+    }
+
+    fun onSearchQueryChanged(query: String) {
+        _uiState.update { it.copy(searchQuery = query) }
     }
 
     fun onStationSelected(station: Station, moveCamera: (LatLng) -> Unit) {
-        _uiState.value = _uiState.value.copy(selectedStation = station)
+        _uiState.update { it.copy(selectedStation = station) }
         moveCamera(LatLng(station.location.latitude, station.location.longitude))
     }
 
@@ -51,10 +65,9 @@ class StationsViewModel @Inject constructor(
         val stationIndex = _uiState.value.stations.indexOfFirst { it.id == stationId }
         if (stationIndex != -1) {
             val station = _uiState.value.stations[stationIndex]
-            _uiState.value = _uiState.value.copy(selectedStation = station)
+            _uiState.update { it.copy(selectedStation = station) }
             scrollToItem(stationIndex)
         }
     }
 }
-
 
