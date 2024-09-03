@@ -45,6 +45,7 @@ fun SearchBar(
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
+                focusedTextColor = Color.Black
             ),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
