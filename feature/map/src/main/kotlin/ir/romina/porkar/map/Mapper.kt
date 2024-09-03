@@ -1,6 +1,7 @@
 package ir.romina.porkar.map
 
 import com.google.android.gms.maps.model.LatLng
+import ir.romina.porkar.map.home.StationItem
 import ir.romina.porkar.model.stations.Station
 
 fun Station.toStationItem(): StationItem {

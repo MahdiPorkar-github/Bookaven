@@ -9,25 +9,26 @@ import androidx.compose.ui.unit.sp
 val Typography = Typography(
     headlineLarge = TextStyle(
         fontSize = 25.sp,
-        color = Purple,
+        color = Black,
         fontWeight = FontWeight.Bold,
     ),
 
     titleMedium = TextStyle(
         fontSize = 20.sp,
-        color = Purple,
+        color = Black,
         fontWeight = FontWeight.Medium,
+    ),
+
+    titleSmall = TextStyle(
+        fontSize = 15.sp,
+        color = WhiteBackground,
+        fontWeight = FontWeight.Bold,
     ),
 
     labelSmall = TextStyle(
         fontSize = 15.sp,
-        color = Gray,
-        fontWeight = FontWeight.Normal,
+        color = Black,
+        fontWeight = FontWeight.Bold,
     ),
 
-    labelLarge = TextStyle(
-        fontSize = 20.sp,
-        color = GrayBlack,
-        fontWeight = FontWeight.SemiBold,
-    ),
 )
