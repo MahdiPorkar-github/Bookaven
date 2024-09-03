@@ -6,6 +6,7 @@ import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.romina.porkar.data.repository.StationsRepository
 import ir.romina.porkar.data.worker.SyncManager
+import ir.romina.porkar.map.presentation.toStationItem
 import ir.romina.porkar.model.stations.Station
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -48,7 +49,8 @@ class StationsViewModel @Inject constructor(
             }
             .onEach { stations: List<Station> ->
                 if (stations.isEmpty()) return@onEach
-                _uiState.update { it.copy(stations = stations) }
+                val stationItems = stations.map { it.toStationItem() }
+                _uiState.update { it.copy(stations = stations, stationItems = stationItems) }
             }.launchIn(viewModelScope)
     }
 

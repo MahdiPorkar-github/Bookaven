@@ -57,23 +57,19 @@ fun StationsMapScreen(
     onSearchQueryChanged: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val initialLocation = LatLng(38.06735146540299, 46.32490158181274)
+    // Initial location is romina
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(initialLocation, 12f)
+        position = CameraPosition.fromLatLngZoom(LatLng(38.06735146540299, 46.32490158181274), 12f)
     }
     val coroutineScope = rememberCoroutineScope()
     val lazyListState = rememberLazyListState()
-
-    val stationItems = remember(uiState.stations) {
-        uiState.stations.map { it.toStationItem() }
-    }
 
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.BottomCenter
     ) {
         MapWithStations(
-            stationItems = stationItems,
+            stationItems = uiState.stationItems,
             uiState = uiState,
             cameraPositionState = cameraPositionState,
             onMapMarkerClicked = onMapMarkerClicked,
@@ -81,7 +77,6 @@ fun StationsMapScreen(
             lazyListState = lazyListState
         )
 
-        // Transparent Search Bar overlapping the map at top
         SearchBar(
             query = uiState.searchQuery,
             onQueryChanged = onSearchQueryChanged,
@@ -90,7 +85,6 @@ fun StationsMapScreen(
                 .align(Alignment.TopCenter)
         )
 
-        // Station List at the bottom
         StationList(
             stations = uiState.stations,
             selectedStation = uiState.selectedStation,
@@ -102,6 +96,7 @@ fun StationsMapScreen(
         )
     }
 }
+
 
 
 @Composable
