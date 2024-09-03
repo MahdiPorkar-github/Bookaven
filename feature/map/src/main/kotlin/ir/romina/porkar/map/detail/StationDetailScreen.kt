@@ -1,8 +1,12 @@
 package ir.romina.porkar.map.detail
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -11,9 +15,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import ir.romina.porkar.designsystem.components.StationTextWithBullet
 import ir.romina.porkar.designsystem.theme.Typography
 import ir.romina.porkar.model.stations.Station
 
@@ -24,9 +31,6 @@ fun StationDetailScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-//    LaunchedEffect(key1 = stationId) {
-//        viewModel.loadStation(stationId)
-//    }
 
     if (state.isLoading) {
         CircularProgressIndicator(modifier = Modifier.wrapContentSize())
@@ -45,24 +49,21 @@ fun StationDetailContent(station: Station) {
         verticalArrangement = Arrangement.Center
     ) {
 
-        Text(
-            text = station.name,
-            textAlign = TextAlign.Center,
-            style = Typography.headlineLarge
-        )
+        Text(text = "Here is the Detailed Information : ")
 
-        Text(
-            text = "Capacity: ${station.capacity}",
-            style = Typography.labelSmall
-        )
+        Spacer(modifier = Modifier.height(32.dp))
 
-        Text(
-            text = "Lat: ${station.location.latitude}",
-            style = Typography.labelSmall
-        )
-        Text(
-            text = "Lon: ${station.location.longitude}",
-            style = Typography.labelSmall
-        )
+        Column(
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.Start
+        ){
+            StationTextWithBullet(text = "Name: ${station.name}", bulletColor = Color(0xFFF28C28))
+            StationTextWithBullet(text = "Capacity: ${station.capacity}", bulletColor = Color.Gray)
+            StationTextWithBullet(text = "Lat: ${station.location.latitude}", bulletColor = Color(0xFFFFBC3D))
+            StationTextWithBullet(text = "Lon: ${station.location.longitude}", bulletColor = Color(0xFF87CEEB))
+        }
+
+
+
     }
 }

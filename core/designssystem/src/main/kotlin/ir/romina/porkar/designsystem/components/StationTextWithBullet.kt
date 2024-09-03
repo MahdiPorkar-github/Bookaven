@@ -17,11 +17,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun StationTextWithBullet(text: String, bulletColor: Color) {
+fun StationTextWithBullet(text: String, bulletColor: Color,modifier: Modifier = Modifier) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .fillMaxWidth()
     ) {
         Box(
             modifier = Modifier

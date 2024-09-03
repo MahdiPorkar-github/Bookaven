@@ -46,13 +46,26 @@ fun StationCard(
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.Start
         ) {
-            StationTextWithBullet(text = "Name: ${station.name}", bulletColor = Color(0xFFF28C28))
-            StationTextWithBullet(text = "Capacity: ${station.capacity}", bulletColor = Color.Gray)
-            StationTextWithBullet(text = "Lat: ${station.location.latitude}", bulletColor = Color(
-                0xFFFFBC3D
+            StationTextWithBullet(
+                text = "Name: ${station.name}",
+                bulletColor = Color(0xFFF28C28),
+                modifier = Modifier.fillMaxWidth()
             )
+            StationTextWithBullet(
+                text = "Capacity: ${station.capacity}",
+                bulletColor = Color.Gray,
+                modifier = Modifier.fillMaxWidth()
             )
-            StationTextWithBullet(text = "Lon: ${station.location.longitude}", bulletColor = Color(0xFF87CEEB))
+            StationTextWithBullet(
+                text = "Lat: ${station.location.latitude}",
+                bulletColor = Color(0xFFFFBC3D),
+                modifier = Modifier.fillMaxWidth()
+            )
+            StationTextWithBullet(
+                text = "Lon: ${station.location.longitude}",
+                bulletColor = Color(0xFF87CEEB),
+                modifier = Modifier.fillMaxWidth()
+            )
             Spacer(modifier = Modifier.height(8.dp))
             Button(
                 modifier = Modifier.fillMaxWidth(),
