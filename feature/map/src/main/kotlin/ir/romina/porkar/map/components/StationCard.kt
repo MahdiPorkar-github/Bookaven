@@ -57,8 +57,7 @@ fun StationCard(
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = onNavigate,
-                shape = RoundedCornerShape(8.dp)
-                ,
+                shape = RoundedCornerShape(8.dp),
             ) {
                 Text("Navigation", style = Typography.titleSmall)
             }

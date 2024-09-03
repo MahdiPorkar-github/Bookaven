@@ -24,9 +24,9 @@ fun StationDetailScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    LaunchedEffect(key1 = stationId) {
-        viewModel.loadStation(stationId)
-    }
+//    LaunchedEffect(key1 = stationId) {
+//        viewModel.loadStation(stationId)
+//    }
 
     if (state.isLoading) {
         CircularProgressIndicator(modifier = Modifier.wrapContentSize())

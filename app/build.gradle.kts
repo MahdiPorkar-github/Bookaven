@@ -75,6 +75,9 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     coreLibraryDesugaring(libs.android.desugarJdkLibs)
 
+    implementation(libs.androidx.work)
+    implementation(libs.hilt.ext.work)
+
 
     implementation("com.google.maps.android:maps-compose:4.3.3")
     implementation("com.google.maps.android:maps-compose-utils:4.3.3")

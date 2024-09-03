@@ -4,5 +4,6 @@ import ir.romina.porkar.model.stations.Station
 
 data class StationsUiState(
     val stations: List<Station> = emptyList(),
-    val selectedStation: Station? = null
+    val selectedStation: Station? = null,
+    val isLoading: Boolean = false,
 )
