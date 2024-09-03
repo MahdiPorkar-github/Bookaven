@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_stations">Search stations...</string>
+    <string name="search_query">Search query...</string>
+    <string name="navigation">Navigation</string>
+    <string name="here_is_the_detailed_information">"Here is the Detailed Information : "</string>
+    <string name="name">Name: %1$s</string>
+    <string name="capacity">Capacity: %1$s</string>
+    <string name="lat">Lat: %1$s</string>
+    <string name="lon">Lon: %1$s</string>
+</resources>

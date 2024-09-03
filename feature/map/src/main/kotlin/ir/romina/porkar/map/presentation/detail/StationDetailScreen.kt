@@ -1,27 +1,24 @@
-package ir.romina.porkar.map.detail
+package ir.romina.porkar.map.presentation.detail
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import ir.romina.porkar.currencyconvertor.R
 import ir.romina.porkar.designsystem.components.StationTextWithBullet
-import ir.romina.porkar.designsystem.theme.Typography
 import ir.romina.porkar.model.stations.Station
 
 @Composable
@@ -36,8 +33,6 @@ fun StationDetailScreen(
         CircularProgressIndicator(modifier = Modifier.wrapContentSize())
     } else if (state.station != null) {
         StationDetailContent(state.station!!)
-    } else {
-        // TODO: Handle error or empty state
     }
 }
 
@@ -49,7 +44,7 @@ fun StationDetailContent(station: Station) {
         verticalArrangement = Arrangement.Center
     ) {
 
-        Text(text = "Here is the Detailed Information : ")
+        Text(text = stringResource(R.string.here_is_the_detailed_information))
 
         Spacer(modifier = Modifier.height(32.dp))
 
@@ -57,13 +52,11 @@ fun StationDetailContent(station: Station) {
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.Start
         ){
-            StationTextWithBullet(text = "Name: ${station.name}", bulletColor = Color(0xFFF28C28))
-            StationTextWithBullet(text = "Capacity: ${station.capacity}", bulletColor = Color.Gray)
-            StationTextWithBullet(text = "Lat: ${station.location.latitude}", bulletColor = Color(0xFFFFBC3D))
-            StationTextWithBullet(text = "Lon: ${station.location.longitude}", bulletColor = Color(0xFF87CEEB))
+            StationTextWithBullet(text = stringResource(R.string.name, station.name), bulletColor = Color(0xFFF28C28))
+            StationTextWithBullet(text = stringResource(R.string.capacity, station.capacity), bulletColor = Color.Gray)
+            StationTextWithBullet(text = stringResource(R.string.lat, station.location.latitude), bulletColor = Color(0xFFFFBC3D))
+            StationTextWithBullet(text = stringResource(R.string.lon, station.location.longitude), bulletColor = Color(0xFF87CEEB))
         }
-
-
 
     }
 }

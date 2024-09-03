@@ -1,4 +1,4 @@
-package ir.romina.porkar.map.components
+package ir.romina.porkar.map.presentation.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,12 +15,18 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ir.romina.porkar.currencyconvertor.R
 import ir.romina.porkar.designsystem.components.StationTextWithBullet
+import ir.romina.porkar.designsystem.theme.MahdiPkTheme
 import ir.romina.porkar.designsystem.theme.Typography
+import ir.romina.porkar.model.stations.Location
 import ir.romina.porkar.model.stations.Station
 
 @Composable
@@ -72,11 +78,40 @@ fun StationCard(
                 onClick = onNavigate,
                 shape = RoundedCornerShape(8.dp),
             ) {
-                Text("Navigation", style = Typography.titleSmall)
+                Text(text = stringResource(R.string.navigation), style = Typography.titleSmall)
             }
         }
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun StationCardPreview() {
+    MahdiPkTheme {
+        // Sample station data
+        val sampleStation = Station(
+            id = "1",
+            name = "Central Station",
+            capacity = 100,
+            location = Location(latitude = 37.7749, longitude = -122.4194),
+            rentalMethods = listOf("")
+        )
 
+        // State to simulate selection
+        var isSelected = remember { false }
+
+        StationCard(
+            station = sampleStation,
+            isSelected = isSelected,
+            onClick = {
+                // Simulate selection toggle
+                isSelected = !isSelected
+            },
+            onNavigate = {
+                // Simulate navigation action, e.g., print to console
+                println("Navigating to ${sampleStation.name}")
+            }
+        )
+    }
+}
 

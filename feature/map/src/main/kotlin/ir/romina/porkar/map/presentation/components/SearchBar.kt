@@ -1,4 +1,4 @@
-package ir.romina.porkar.map.components
+package ir.romina.porkar.map.presentation.components
 
 
 import androidx.compose.foundation.background
@@ -15,9 +15,13 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ir.romina.porkar.currencyconvertor.R
+import ir.romina.porkar.designsystem.theme.MahdiPkTheme
 
 @Composable
 fun SearchBar(
@@ -37,7 +41,7 @@ fun SearchBar(
         TextField(
             value = query,
             onValueChange = onQueryChanged,
-            placeholder = { Text("Search stations...") },
+            placeholder = { Text(stringResource(R.string.search_stations)) },
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
@@ -54,6 +58,17 @@ fun SearchBar(
             ),
             modifier = Modifier
                 .fillMaxWidth(),
+        )
+    }
+}
+@Preview(showBackground = true)
+@Composable
+fun SearchBarPreview() {
+    MahdiPkTheme {
+        SearchBar(
+            query = stringResource(R.string.search_query),
+            onQueryChanged = {},
+            onSearch = {}
         )
     }
 }

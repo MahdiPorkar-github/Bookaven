@@ -1,4 +1,4 @@
-package ir.romina.porkar.map.detail
+package ir.romina.porkar.map.presentation.detail
 
 import ir.romina.porkar.model.stations.Station
 

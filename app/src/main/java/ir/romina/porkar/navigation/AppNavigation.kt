@@ -7,8 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import ir.romina.porkar.map.detail.StationDetailScreen
-import ir.romina.porkar.map.home.StationsMapScreenRoute
+import ir.romina.porkar.map.presentation.detail.StationDetailScreen
+import ir.romina.porkar.map.presentation.home.StationsMapScreenRoute
 
 @Composable
 fun AppNavigation() {

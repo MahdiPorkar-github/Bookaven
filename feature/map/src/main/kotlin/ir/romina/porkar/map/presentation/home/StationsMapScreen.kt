@@ -1,4 +1,4 @@
-package ir.romina.porkar.map.home
+package ir.romina.porkar.map.presentation.home
 
 import androidx.compose.runtime.*
 import com.google.maps.android.compose.GoogleMap
@@ -20,9 +20,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.MapsComposeExperimentalApi
 import com.google.maps.android.compose.clustering.Clustering
-import ir.romina.porkar.map.components.SearchBar
-import ir.romina.porkar.map.components.StationCard
-import ir.romina.porkar.map.toStationItem
+import ir.romina.porkar.map.presentation.components.SearchBar
+import ir.romina.porkar.map.presentation.components.StationCard
+import ir.romina.porkar.map.presentation.toStationItem
 import ir.romina.porkar.model.stations.Station
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -72,7 +72,6 @@ fun StationsMapScreen(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.BottomCenter
     ) {
-        // Map behind the search bar
         MapWithStations(
             stationItems = stationItems,
             uiState = uiState,
@@ -82,13 +81,13 @@ fun StationsMapScreen(
             lazyListState = lazyListState
         )
 
-        // Transparent Search Bar overlapping the map
+        // Transparent Search Bar overlapping the map at top
         SearchBar(
             query = uiState.searchQuery,
             onQueryChanged = onSearchQueryChanged,
             modifier = Modifier
                 .fillMaxWidth()
-                .align(Alignment.TopCenter)  // Align at the top center
+                .align(Alignment.TopCenter)
         )
 
         // Station List at the bottom
@@ -178,7 +177,7 @@ fun MapWithStations(
         stationItems.forEach { stationItem ->
             Circle(
                 center = stationItem.itemPosition,
-                radius = stationItem.itemCapacity * 50.0,
+                radius = stationItem.itemCapacity * 50.0, // just to make the circles bigger
                 fillColor = if (uiState.selectedStation?.id == stationItem.id) Color.Red else Color.Green,
                 strokeColor = Color.Transparent
             )
