@@ -31,6 +31,10 @@ internal fun Project.configureKotlinAndroid(
         }
 
         configureKotlin()
+
+        configureBuildTypes(
+            commonExtension = this,
+        )
     }
 }
 
