@@ -5,7 +5,7 @@ package ir.romina.porkar.network.model.response
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ExtraInfo(
+data class ExtraInfoDto(
     val coverImage: String = "",
     val pageCount: Int = 0,
     val description: String = ""

@@ -1,9 +1,9 @@
 // repository/BookRepository.kt
 
-package ir.romina.porkar.data.repository
+package pk.mahdi.bookaven.data.repository
 
-import ir.romina.porkar.network.model.response.BookSet
 import kotlinx.coroutines.flow.Flow
+import pk.mahdi.bookaven.model.bookservice.BookSet
 
 interface BookRepository {
     /**

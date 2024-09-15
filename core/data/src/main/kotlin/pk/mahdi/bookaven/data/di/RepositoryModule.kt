@@ -1,16 +1,16 @@
 // di/RepositoryModule.kt
 
-package ir.romina.porkar.data.di
+package pk.mahdi.bookaven.data.di
 
 
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ir.romina.porkar.data.repository.BookRepository
-import ir.romina.porkar.data.repository.BookRepositoryImpl
-import ir.romina.porkar.data.repository.GoogleBooksRepository
-import ir.romina.porkar.data.repository.GoogleBooksRepositoryImpl
+import pk.mahdi.bookaven.data.repository.BookRepository
+import pk.mahdi.bookaven.data.repository.BookRepositoryImpl
+import pk.mahdi.bookaven.data.repository.GoogleBooksRepository
+import pk.mahdi.bookaven.data.repository.GoogleBooksRepositoryImpl
 import javax.inject.Singleton
 
 @Module

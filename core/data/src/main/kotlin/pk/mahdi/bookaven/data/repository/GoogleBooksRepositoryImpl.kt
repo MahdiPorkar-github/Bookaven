@@ -1,6 +1,4 @@
-// repository/GoogleBooksRepositoryImpl.kt
-
-package ir.romina.porkar.data.repository
+package pk.mahdi.bookaven.data.repository
 
 import ir.romina.porkar.network.model.response.GoogleBooksResponse
 import ir.romina.porkar.network.service.GoogleBooksService
@@ -10,7 +8,8 @@ import pk.mahdi.network.BuildConfig
 import javax.inject.Inject
 
 class GoogleBooksRepositoryImpl @Inject constructor(
-    private val googleBooksService: GoogleBooksService
+    private val googleBooksService: GoogleBooksService,
+    private val apiKey: String,
 ) : GoogleBooksRepository {
 
     override fun searchBooks(
@@ -24,7 +23,7 @@ class GoogleBooksRepositoryImpl @Inject constructor(
                 query = query,
                 maxResults = maxResults,
                 startIndex = startIndex,
-                apiKey = BuildConfig.GOOGLE_API_KEY // Replace with your actual API key or fetch from secure storage
+                apiKey = apiKey
             )
             // Emit the successful response
             emit(Result.success(response))

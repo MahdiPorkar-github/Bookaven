@@ -11,29 +11,29 @@ data class GoogleBooksResponse(
     val totalItems: Int,
     
     @SerialName("items")
-    val items: List<GoogleBookItem>? = null
+    val items: List<GoogleBookItemResponse>? = null
 )
 
 @Serializable
-data class GoogleBookItem(
+data class GoogleBookItemResponse(
     @SerialName("volumeInfo")
-    val volumeInfo: VolumeInfo
+    val volumeInfoResponse: VolumeInfoResponse
 )
 
 @Serializable
-data class VolumeInfo(
+data class VolumeInfoResponse(
     @SerialName("imageLinks")
-    val imageLinks: ImageLinks? = null,
-    
+    val imageLinksResponse: ImageLinksResponse? = null,
+
     @SerialName("pageCount")
     val pageCount: Int? = null,
-    
+
     @SerialName("description")
     val description: String? = null
 )
 
 @Serializable
-data class ImageLinks(
+data class ImageLinksResponse(
     @SerialName("thumbnail")
     val thumbnail: String
 )

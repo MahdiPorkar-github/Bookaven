@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Author(
+data class AuthorDto(
     @SerialName("name")
     val name: String = "N/A",
     @SerialName("birth_year")

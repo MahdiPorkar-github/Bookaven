@@ -3,7 +3,7 @@
 package ir.romina.porkar.network.service
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import ir.romina.porkar.network.model.response.BookSet
+import ir.romina.porkar.network.model.response.BookSetDto
 import ir.romina.porkar.network.util.Constants
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
@@ -20,24 +20,24 @@ interface BookService {
     suspend fun getAllBooks(
         @Query("page") page: Long,
         @Query("languages") language: String? = null
-    ): BookSet
+    ): BookSetDto
 
     @GET("books/")
     suspend fun searchBooks(
         @Query("search") query: String
-    ): BookSet
+    ): BookSetDto
 
     @GET("books/")
     suspend fun getBookById(
         @Query("ids") bookId: String
-    ): BookSet
+    ): BookSetDto
 
     @GET("books/")
     suspend fun getBooksByCategory(
         @Query("page") page: Long,
         @Query("topic") category: String,
         @Query("languages") language: String? = null
-    ): BookSet
+    ): BookSetDto
     
 }
 

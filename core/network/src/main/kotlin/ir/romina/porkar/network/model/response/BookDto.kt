@@ -7,15 +7,15 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Book(
+data class BookDto(
     @SerialName("id")
     val id: Int = 0,
     @SerialName("title")
     val title: String = "",
     @SerialName("authors")
-    val authors: List<Author> = emptyList(),
+    val authorDtos: List<AuthorDto> = emptyList(),
     @SerialName("translators")
-    val translators: List<Translator> = emptyList(),
+    val translatorDtos: List<TranslatorDto> = emptyList(),
     @SerialName("subjects")
     val subjects: List<String> = emptyList(),
     @SerialName("bookshelves")
@@ -27,7 +27,7 @@ data class Book(
     @SerialName("media_type")
     val mediaType: String = "",
     @SerialName("formats")
-    val formats: Formats? = null,
+    val formats: FormatsDto? = null,
     @SerialName("download_count")
     val downloadCount: Long = 0
 )

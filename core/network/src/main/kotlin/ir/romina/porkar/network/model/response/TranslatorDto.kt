@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Translator(
+data class TranslatorDto(
     @SerialName("name")
     val name: String = "N/A",
     @SerialName("birth_year")

@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
-data class Formats(
+data class FormatsDto(
     @SerialName("text/plain")
     val textplain: String? = null,
     @SerialName("application/x-mobipocket-ebook")

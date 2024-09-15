@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class BookSet(
+data class BookSetDto(
     @SerialName("count")
     val count: Int = 0,
     @SerialName("next")
@@ -14,5 +14,5 @@ data class BookSet(
     @SerialName("previous")
     val previous: String? = null,
     @SerialName("results")
-    val books: List<Book> = emptyList()
+    val bookDtos: List<BookDto> = emptyList()
 )
