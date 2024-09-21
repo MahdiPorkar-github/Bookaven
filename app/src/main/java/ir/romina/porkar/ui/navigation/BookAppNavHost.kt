@@ -9,7 +9,10 @@ import pk.mahdi.bookaven.feature.book_detail.navigateToBookDetail
 import pk.mahdi.bookaven.home.GRAPH_HOME_ROUTE
 import pk.mahdi.bookaven.home.homeGraph
 import pk.mahdi.bookaven.feature.book_detail.bookDetailScreen
+import pk.mahdi.bookaven.feature.categories.categoriesGraph
 import pk.mahdi.core.ui.navigation.DestinationRoute
+import pk.mahdi.library.libraryGraph
+import pk.mahdi.settings.settingsGraph
 
 @Composable
 fun BookAppNavHost(
@@ -29,6 +32,30 @@ fun BookAppNavHost(
                 bookDetailScreen(rootRoute, navController)
             }
         )
+
+        categoriesGraph(
+            onCategoryClick = { rootRoute ->
+
+            },
+            nestedGraphs = {
+
+            }
+        )
+
+        libraryGraph(
+            nestedGraphs = {
+
+            }
+        )
+
+
+        settingsGraph(
+
+            nestedGraphs = {
+
+            }
+        )
+
     }
 }
 

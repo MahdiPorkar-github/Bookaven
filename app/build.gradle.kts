@@ -81,7 +81,11 @@ dependencies {
     implementation(project(":core:database"))
     implementation(project(":core:data"))
     implementation(project(":core:ui:navigation"))
+
     implementation(project(":feature:home"))
     implementation(project(":feature:book_detail"))
+    implementation(project(":feature:categories"))
+    implementation(project(":feature:library"))
+    implementation(project(":feature:settings"))
 
 }

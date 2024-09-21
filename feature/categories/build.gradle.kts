@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "pk.mahdi.bookaven.feature.home"
+    namespace = "pk.mahdi.bookaven.feature.categories"
 
     defaultConfig {
 

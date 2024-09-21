@@ -20,6 +20,8 @@ androidxLifecycle = "2.7.0"
 room = "2.6.1"
 workVersion = "2.9.0"
 kotlinxCoroutines = "1.8.0"
+appcompat = "1.7.0"
+material = "1.12.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -69,6 +71,8 @@ androidx-lifecycle-runtimeTesting = { group = "androidx.lifecycle", name = "life
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 mockito = { group = "org.mockito.kotlin", name = "mockito-kotlin", version = "5.3.1" }
 androidx-core-testing = { group = "androidx.arch.core", name = "core-testing", version = "2.2.0" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
@@ -83,5 +87,6 @@ mahdipk-android-hilt = { id = "mahdipk.android.hilt", version = "unspecified" }
 mahdipk-android-compose = { id = "mahdipk.android.compose", version = "unspecified" }
 mahdipk-android-feature = { id = "mahdipk.android.feature", version = "unspecified" }
 mahdipk-android-room = { id = "mahdipk.android.room", version = "unspecified" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 
 
