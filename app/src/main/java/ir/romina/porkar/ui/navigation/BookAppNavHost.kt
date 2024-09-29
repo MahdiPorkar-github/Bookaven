@@ -29,7 +29,7 @@ fun BookAppNavHost(
                 navController.navigateToBookDetail(rootRoute, bookId)
             },
             nestedGraphs = { rootRoute ->
-                bookDetailScreen(rootRoute, navController)
+                addBookDetailScreen(rootRoute, navController)
             }
         )
 
@@ -59,7 +59,7 @@ fun BookAppNavHost(
     }
 }
 
-private fun NavGraphBuilder.bookDetailScreen(
+private fun NavGraphBuilder.addBookDetailScreen(
     rootRoute: DestinationRoute,
     navController: NavHostController,
 ) {
