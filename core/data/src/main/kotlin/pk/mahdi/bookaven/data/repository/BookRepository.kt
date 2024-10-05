@@ -1,5 +1,7 @@
 package pk.mahdi.bookaven.data.repository
 
+import pk.mahdi.bookaven.DataError
+import pk.mahdi.bookaven.Result
 import pk.mahdi.bookaven.model.bookservice.BookSet
 
 interface BookRepository {
@@ -13,7 +15,7 @@ interface BookRepository {
     suspend fun getAllBooks(
         page: Long,
         language: String? = null
-    ): Result<BookSet>
+    ): Result<BookSet,DataError.Network>
 
     /**
      * Searches for books based on a query string.
@@ -21,7 +23,7 @@ interface BookRepository {
      * @param query The search query.
      * @return A Flow emitting Result with BookSet data or an error.
      */
-    suspend fun searchBooks(query: String): Result<BookSet>
+    suspend fun searchBooks(query: String): Result<BookSet,DataError.Network>
 
     /**
      * Retrieves a book by its unique identifier.
@@ -29,7 +31,7 @@ interface BookRepository {
      * @param bookId The unique identifier of the book.
      * @return A Flow emitting Result with BookSet data or an error.
      */
-    suspend fun getBookById(bookId: String): Result<BookSet>
+    suspend fun getBookById(bookId: String): Result<BookSet,DataError.Network>
 
     /**
      * Retrieves books by a specific category with pagination and optional language filtering.
@@ -43,5 +45,5 @@ interface BookRepository {
         page: Long,
         category: String,
         language: String? = null
-    ): Result<BookSet>
+    ): Result<BookSet,DataError.Network>
 }

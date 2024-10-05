@@ -1,3 +1,5 @@
+package pk.mahdi.bookaven
+
 /**
  * Copyright (c) [2024 - Present] Mahdi Porkar
  *
@@ -26,12 +28,13 @@
  * @property onError A suspend function that is called when an error occurs.
  * @property onSuccess A suspend function that is called when the data is successfully loaded.
  */
-class Paginator<Page, BookSet>(
+
+class Paginator<Page, BookSet, E : RootError>(
     private val initialPage: Page,
     private inline val onLoadUpdated: (Boolean) -> Unit,
-    private inline val onRequest: suspend (nextPage: Page) -> Result<BookSet>,
+    private inline val onRequest: suspend (nextPage: Page) -> Result<BookSet, E>,
     private inline val getNextPage: suspend (BookSet) -> Page,
-    private inline val onError: suspend (Throwable?) -> Unit,
+    private inline val onError: suspend (E) -> Unit,
     private inline val onSuccess: suspend (item: BookSet, newPage: Page) -> Unit
 ) {
 
@@ -49,14 +52,19 @@ class Paginator<Page, BookSet>(
         onLoadUpdated(true)
         val result = onRequest(currentPage)
         isMakingRequest = false
-        val bookSet = result.getOrElse {
-            onError(it)
-            onLoadUpdated(false)
-            return
+
+        when (result) {
+            is Result.Success -> {
+                val bookSet = result.data
+                currentPage = getNextPage(bookSet)
+                onSuccess(bookSet, currentPage)
+                onLoadUpdated(false)
+            }
+            is Result.Error -> {
+                onError(result.error)
+                onLoadUpdated(false)
+            }
         }
-        currentPage = getNextPage(bookSet)
-        onSuccess(bookSet, currentPage)
-        onLoadUpdated(false)
     }
 
     /**
