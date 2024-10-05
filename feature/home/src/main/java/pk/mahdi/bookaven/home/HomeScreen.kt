@@ -1,12 +1,22 @@
 package pk.mahdi.bookaven.home
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -23,6 +33,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,125 +43,133 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import kotlinx.coroutines.delay
+import pk.mahdi.bookaven.components.BookItemCard
+import pk.mahdi.bookaven.components.ProgressDots
+import pk.mahdi.bookaven.home.utils.BookUtils
 import pk.mahdi.bookaven.model.bookservice.Book
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    onBookClick: (Int) -> Unit // Pass book click event callback
+    onBookClick: (Int) -> Unit
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
-    var isSearchActive by remember { mutableStateOf(false) }
 
+    LaunchedEffect(key1 = true) {
+        delay(200)
+        viewModel.loadNextItems()
+    }
 
     Scaffold(
         topBar = {
-            HomeTopAppBar(
-                searchText = state.searchText,
-                onSearchTextChanged = viewModel::onSearchTextChanged,
-                onSearchTriggered = { viewModel.onSearchTextChanged(it) }, // Search triggered callback
-                isSearchActive = isSearchActive,
-                onActiveChange = { isSearchActive = it } // Handle search bar expansion/collapse
-            )
+
         },
     ) { padding ->
         Box(modifier = Modifier.padding(padding)) {
-            if (state.isLoading) {
-                LoadingIndicator()
-            } else if (state.error != null) {
+            if (state.error != null) {
                 ErrorContent(
                     message = state.error!!,
-                    onRetryClick = viewModel::onRetry
-                )
-            } else if (state.searchText.isBlank()) {
-                BookList(
-                    books = state.items,
-                    onBookClick = onBookClick // Trigger the callback when a book is clicked
+                    onRetryClick = { viewModel.reloadItems() }
                 )
             } else {
-                SearchResults(
-                    searchResults = state.searchResults,
-                    onBookClick = onBookClick // Trigger the callback for search results
+                AllBooksList(
+                    state = state,
+                    onBookClick = onBookClick,
+                    onRetryClicked = { },
+                    onLoadNextItems = { viewModel.loadNextItems() }
                 )
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
-fun HomeTopAppBar(
-    searchText: String,
-    onSearchTextChanged: (String) -> Unit,
-    onSearchTriggered: (String) -> Unit, // Triggered when search is performed
-    isSearchActive: Boolean,
-    onActiveChange: (Boolean) -> Unit,   // Active state change callback
+private fun AllBooksList(
+    state: AllBooksUiState,
+    onBookClick: (Int) -> Unit,
+    onRetryClicked: () -> Unit,
+    onLoadNextItems: () -> Unit
 ) {
-    SearchBar(
-        query = searchText,
-        onQueryChange = onSearchTextChanged, // Called when the text changes
-        onSearch = onSearchTriggered,        // Trigger the search action
-        active = isSearchActive,
-        onActiveChange = onActiveChange,     // Called when search bar is expanded/collapsed
-        placeholder = { Text("Search Books") }, // Placeholder when searchText is empty
-        leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search Icon") },
-        trailingIcon = {
-            if (searchText.isNotEmpty()) {
-                IconButton(onClick = { onSearchTextChanged("") }) {
-                    Icon(Icons.Default.Close, contentDescription = "Clear Search")
+
+
+    AnimatedVisibility(
+        visible = !state.isLoading || state.error == null,
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+        LazyVerticalGrid(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .padding(start = 8.dp, end = 8.dp),
+            columns = GridCells.Adaptive(295.dp)
+        ) {
+            items(state.items.size) { i ->
+                val item = state.items[i]
+                if (i >= state.items.size - 1
+                    && !state.endReached
+                    && !state.isLoading
+                ) {
+                    onLoadNextItems()
+                }
+                Box(
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    BookItemCard(
+                        title = item.title,
+                        author = BookUtils.getAuthorsAsString(item.authors),
+                        language = BookUtils.getLanguagesAsString(item.languages),
+                        subjects = BookUtils.getSubjectsAsString(
+                            item.subjects, 3
+                        ),
+                        coverImageUrl = item.formats.imageJpeg
+                    ) {
+                        onBookClick(item.id)
+                    }
                 }
             }
-        },
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        // Optional: You can add content below the search bar (like search suggestions)
-        // Here we leave this block empty.
-    }
-}
 
-
-@Composable
-fun BookList(books: List<Book>, onBookClick: (Int) -> Unit) {
-    LazyColumn {
-        items(books) { book ->
-            BookCard(book = book, onClick = { onBookClick(book.id) }) // Pass book ID
+            item {
+                AnimatedVisibility(
+                    visible = state.isLoading,
+                    enter = fadeIn(),
+                    exit = fadeOut()
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        ProgressDots()
+                    }
+                }
+            }
         }
     }
 }
 
-@Composable
-fun SearchResults(searchResults: List<Book>, onBookClick: (Int) -> Unit) {
-    LazyColumn {
-        items(searchResults) { book ->
-            BookCard(book = book, onClick = { onBookClick(book.id) }) // Pass book ID
-        }
-    }
-}
-
-@Composable
-fun BookCard(book: Book, onClick: () -> Unit) {
-    Card(onClick = onClick, modifier = Modifier.padding(8.dp)) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(book.title, style = MaterialTheme.typography.bodyLarge)
-            Text(book.authors.joinToString(), style = MaterialTheme.typography.bodyMedium)
-        }
-    }
-}
-
-@Composable
-fun LoadingIndicator() {
-    CircularProgressIndicator(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center))
-}
 
 @Composable
 fun ErrorContent(message: String, onRetryClick: () -> Unit) {
     Column(
-        modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(48.dp)
+        ,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         Text(text = message)
+        Spacer(modifier = Modifier.height(32.dp))
         Button(onClick = onRetryClick) {
             Text("Retry")
         }

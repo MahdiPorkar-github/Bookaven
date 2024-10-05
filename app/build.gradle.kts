@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "ir.romina.porkar"
+    namespace = "pk.mahdi.bookaven"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "ir.romina.porkar"
+        applicationId = "pk.mahdi.bookaven"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -81,6 +81,7 @@ dependencies {
     implementation(project(":core:database"))
     implementation(project(":core:data"))
     implementation(project(":core:ui:navigation"))
+    implementation(project(":core:ui:components"))
 
     implementation(project(":feature:home"))
     implementation(project(":feature:book_detail"))

@@ -1,14 +1,14 @@
 package pk.mahdi.bookaven.data.mapper
 
-import ir.romina.porkar.network.model.response.AuthorDto
-import ir.romina.porkar.network.model.response.BookDto
-import ir.romina.porkar.network.model.response.BookSetDto
-import ir.romina.porkar.network.model.response.FormatsDto
-import ir.romina.porkar.network.model.response.GoogleBookItemResponse
-import ir.romina.porkar.network.model.response.GoogleBooksResponse
-import ir.romina.porkar.network.model.response.ImageLinksResponse
-import ir.romina.porkar.network.model.response.TranslatorDto
-import ir.romina.porkar.network.model.response.VolumeInfoResponse
+import pk.mahdi.porkar.bookaven.model.response.AuthorDto
+import pk.mahdi.porkar.bookaven.model.response.BookDto
+import pk.mahdi.porkar.bookaven.model.response.BookSetDto
+import pk.mahdi.porkar.bookaven.model.response.FormatsDto
+import pk.mahdi.porkar.bookaven.model.response.GoogleBookItemResponse
+import pk.mahdi.porkar.bookaven.model.response.GoogleBooksResponse
+import pk.mahdi.porkar.bookaven.model.response.ImageLinksResponse
+import pk.mahdi.porkar.bookaven.model.response.TranslatorDto
+import pk.mahdi.porkar.bookaven.model.response.VolumeInfoResponse
 import pk.mahdi.bookaven.model.bookservice.Author
 import pk.mahdi.bookaven.model.bookservice.Book
 import pk.mahdi.bookaven.model.bookservice.BookSet

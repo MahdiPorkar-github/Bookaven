@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "pk.mahdi.network"
+    namespace = "pk.mahdi.bookaven.network"
 }
 
 dependencies {

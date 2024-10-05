@@ -4,5 +4,5 @@ plugins {
 }
 
 android {
-    namespace = "ir.romina.porkar.designssystem"
+    namespace = "pk.mahdi.bookaven.designssystem"
 }

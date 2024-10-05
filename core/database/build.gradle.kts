@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "ir.romina.porkar.database"
+    namespace = "pk.mahdi.bookaven.database"
 }
 
 dependencies {

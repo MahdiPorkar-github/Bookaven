@@ -1,4 +1,4 @@
-import ir.romina.convention.configureKotlinJvm
+import pk.mahdi.convention.configureKotlinJvm
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 

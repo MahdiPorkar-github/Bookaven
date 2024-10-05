@@ -1,5 +1,5 @@
 import com.android.build.gradle.LibraryExtension
-import ir.romina.convention.configureKotlinAndroid
+import pk.mahdi.convention.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure

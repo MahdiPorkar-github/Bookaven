@@ -1,6 +1,6 @@
 package pk.mahdi.bookaven.data.repository
 
-import ir.romina.porkar.network.model.response.GoogleBooksResponse
+import pk.mahdi.porkar.bookaven.model.response.GoogleBooksResponse
 import kotlinx.coroutines.flow.Flow
 
 interface GoogleBooksRepository {

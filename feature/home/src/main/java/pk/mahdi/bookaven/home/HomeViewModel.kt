@@ -1,5 +1,6 @@
 package pk.mahdi.bookaven.home
 
+import Paginator
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,98 +13,77 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pk.mahdi.bookaven.data.repository.BookRepository
+import pk.mahdi.bookaven.model.bookservice.Book
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val bookRepository: BookRepository // Injecting the repository
+    private val bookRepository: BookRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(AllBooksUiState(isLoading = false))
     val state = _state.asStateFlow()
 
-    init {
-        loadBooks() // Loading books initially
-    }
 
-    private fun loadBooks() {
+    private val pagination = Paginator(
+        initialPage = state.value.page,
+        onLoadUpdated = { isLoading ->
+            _state.update {
+                it.copy(isLoading = isLoading)
+            }
+        },
+        onRequest = { nextPage ->
+            try {
+                bookRepository.getAllBooks(nextPage)
+            } catch (exc: Exception) {
+                Result.failure(exc)
+            }
+        },
+        getNextPage = {
+            _state.value.page + 1L
+        },
+        onError = { throwable ->
+            _state.update {
+                it.copy(error = throwable?.localizedMessage ?: "UNKNOWN_ERROR")
+            }
+        },
+        onSuccess = { bookSet, newPage ->
+            val books = if (bookSet.books != null) {
+                val books =
+                    bookSet.books.filter { it.formats.applicationEpubZip != null } as ArrayList<Book>
+                // Remove the book with id 1513
+                val index = books.indexOfFirst { it.id == 1513 }
+                if (index != -1) {
+                    books.removeAt(index)
+                }
+                books // return the list of books
+            } else {
+                ArrayList()
+            }
+
+            _state.update {
+                it.copy(
+                    items = (_state.value.items + books),
+                    page = newPage,
+                    endReached = books.isEmpty()
+                )
+            }
+        }
+    )
+
+    fun loadNextItems() {
         viewModelScope.launch {
-            loadNextBooksPage()
+            pagination.loadNextItems()
         }
     }
 
-    // Function to handle search input changes
-    fun onSearchTextChanged(query: String,) {
-        _state.update { state ->
-            state.copy(searchText = query, isSearching = true)
+
+    fun reloadItems() {
+        pagination.reset()
+        _state.update {
+            AllBooksUiState(isLoading = false)
         }
-         viewModelScope.launch {
-                delay(500L) // Debounce to avoid excessive API calls
-                searchBooks(query)
-
-        }
-    }
-
-    // Function to load the next page of books using the repository
-    private suspend fun loadNextBooksPage() {
-        _state.update { state -> state.copy(isLoading = true) }
-
-        // Fetching paginated books using the repository and handling success/failure
-        bookRepository.getAllBooks(_state.value.page)
-            .onEach { result ->
-                result.fold(
-                    onSuccess = { bookSet ->
-                        val filteredBooks = bookSet.books.filter { it.formats.applicationEpubZip != null }
-                        _state.update { state ->
-                            state.copy(
-                                items = state.items + filteredBooks,
-                                isLoading = false,
-                                endReached = filteredBooks.isEmpty(),
-                                page = state.page + 1
-                            )
-                        }
-                    },
-                    onFailure = { throwable ->
-                        _state.update { state ->
-                            state.copy(error = throwable.localizedMessage ?: "Unknown Error", isLoading = false)
-                        }
-                    }
-                )
-            }
-            .launchIn(viewModelScope) // Launch Flow in the ViewModel's coroutine scope
-    }
-
-    // Function to search for books based on user input
-    private suspend fun searchBooks(query: String) {
-        if (query.isBlank()) return
-
-        // Searching books using the repository
-        bookRepository.searchBooks(query)
-            .onEach { result ->
-                result.fold(
-                    onSuccess = { bookSet ->
-                        val books = bookSet.books.filter { it.formats.applicationEpubZip != null }
-                        _state.update { state -> state.copy(searchResults = books, isSearching = false) }
-                    },
-                    onFailure = { throwable ->
-                        _state.update { state -> state.copy(error = throwable.localizedMessage ?: "Search Failed", isSearching = false) }
-                    }
-                )
-            }
-            .launchIn(viewModelScope)
-    }
-
-    // Reload books (used in error cases)
-    fun reloadBooks() {
-        _state.update { state ->
-            state.copy(page = 1, items = emptyList(), searchResults = emptyList(), isLoading = true)
-        }
-        loadBooks()
-    }
-
-    // Retry logic for error cases
-    fun onRetry() {
-        reloadBooks()
+        loadNextItems()
     }
 }
 

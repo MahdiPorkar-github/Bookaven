@@ -1,10 +1,9 @@
 package pk.mahdi.bookaven.data.repository
 
-import ir.romina.porkar.network.model.response.GoogleBooksResponse
-import ir.romina.porkar.network.service.GoogleBooksService
+import pk.mahdi.porkar.bookaven.model.response.GoogleBooksResponse
+import pk.mahdi.porkar.bookaven.service.GoogleBooksService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import pk.mahdi.network.BuildConfig
 import javax.inject.Inject
 
 class GoogleBooksRepositoryImpl @Inject constructor(

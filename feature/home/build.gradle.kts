@@ -19,6 +19,7 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:common"))
     implementation(project(":core:ui:navigation"))
+    implementation(project(":core:ui:components"))
 
 
     testImplementation(libs.mockito)

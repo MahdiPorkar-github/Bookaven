@@ -3,5 +3,5 @@ plugins {
 }
 
 android {
-    namespace = "ir.romina.porkar.common"
+    namespace = "pk.mahdi.bookaven.common"
 }

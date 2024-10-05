@@ -1,8 +1,5 @@
-// repository/BookRepository.kt
-
 package pk.mahdi.bookaven.data.repository
 
-import kotlinx.coroutines.flow.Flow
 import pk.mahdi.bookaven.model.bookservice.BookSet
 
 interface BookRepository {
@@ -13,10 +10,10 @@ interface BookRepository {
      * @param language Optional language filter.
      * @return A Flow emitting Result with BookSet data or an error.
      */
-    fun getAllBooks(
+    suspend fun getAllBooks(
         page: Long,
         language: String? = null
-    ): Flow<Result<BookSet>>
+    ): Result<BookSet>
 
     /**
      * Searches for books based on a query string.
@@ -24,7 +21,7 @@ interface BookRepository {
      * @param query The search query.
      * @return A Flow emitting Result with BookSet data or an error.
      */
-    fun searchBooks(query: String): Flow<Result<BookSet>>
+    suspend fun searchBooks(query: String): Result<BookSet>
 
     /**
      * Retrieves a book by its unique identifier.
@@ -32,7 +29,7 @@ interface BookRepository {
      * @param bookId The unique identifier of the book.
      * @return A Flow emitting Result with BookSet data or an error.
      */
-    fun getBookById(bookId: String): Flow<Result<BookSet>>
+    suspend fun getBookById(bookId: String): Result<BookSet>
 
     /**
      * Retrieves books by a specific category with pagination and optional language filtering.
@@ -42,9 +39,9 @@ interface BookRepository {
      * @param language Optional language filter.
      * @return A Flow emitting Result with BookSet data or an error.
      */
-    fun getBooksByCategory(
+    suspend fun getBooksByCategory(
         page: Long,
         category: String,
         language: String? = null
-    ): Flow<Result<BookSet>>
+    ): Result<BookSet>
 }
